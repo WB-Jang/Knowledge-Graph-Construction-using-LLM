@@ -37,8 +37,9 @@ sleep 10
 
 # Check Neo4j health
 echo "Checking Neo4j connection..."
+NEO4J_PASSWORD=${NEO4J_PASSWORD:-password123}
 for i in {1..30}; do
-    if docker-compose exec -T neo4j cypher-shell -u neo4j -p password123 "RETURN 1" > /dev/null 2>&1; then
+    if docker-compose exec -T neo4j cypher-shell -u neo4j -p "$NEO4J_PASSWORD" "RETURN 1" > /dev/null 2>&1; then
         echo "Neo4j is ready!"
         break
     fi

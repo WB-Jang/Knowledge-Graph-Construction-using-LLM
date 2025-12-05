@@ -10,8 +10,6 @@ readme = "README.md"
 python = ">=3.10, <3.12"
 # Database
 neo4j = "^5.15.0"
-# Vector Store
-chromadb = "0.5.23"
 # Hugging Face & Transformers
 transformers = "4.44.2"
 tokenizers = "0.19.1"
