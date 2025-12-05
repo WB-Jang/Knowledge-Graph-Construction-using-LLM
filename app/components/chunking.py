@@ -1,9 +1,69 @@
+"""
+Text chunking utilities for document processing
+"""
 import re
-from typing import List, Dict
+from typing import List, Dict, Optional
 from langchain_community.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+
+def pdf_to_text(path: str, clean_pattern: Optional[str] = None) -> str:
+    """
+    Extract text from PDF file
+
+    Args:
+        path: Path to PDF file
+        clean_pattern: Optional regex pattern to remove unwanted text
+
+    Returns:
+        Extracted text
+    """
+    loader = PyPDFLoader(path)
+    pages = loader.load()
+    
+    if clean_pattern:
+        text = "\n".join([re.sub(clean_pattern, "", p.page_content).strip() for p in pages])
+    else:
+        text = "\n".join([p.page_content.strip() for p in pages])
+    
+    return text
+
+
+def chunk_text(
+    text: str,
+    chunk_size: int = 1000,
+    chunk_overlap: int = 200,
+    separators: Optional[List[str]] = None,
+) -> List[str]:
+    """
+    Split text into chunks using recursive character text splitter
+
+    Args:
+        text: Input text
+        chunk_size: Maximum chunk size
+        chunk_overlap: Overlap between chunks
+        separators: Optional list of separators
+
+    Returns:
+        List of text chunks
+    """
+    if separators is None:
+        separators = ["\n\n", "\n", " ", ""]
+
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        separators=separators,
+        length_function=len,
+    )
+
+    chunks = splitter.split_text(text)
+    return chunks
+
 
 # 법령의 메타 데이터도 조문 안으로 들어가도록 설정하자
 def _pdf_to_text(path: str) -> str:
+    """Legacy function for Korean law document processing"""
     pdf_file = path
     loader = PyPDFLoader(pdf_file)
     pages = loader.load()
@@ -12,7 +72,17 @@ def _pdf_to_text(path: str) -> str:
     
     return law_text
 
-def _parse_law(law_text):
+
+def _parse_law(law_text: str) -> List[str]:
+    """
+    Parse Korean law document into articles
+    
+    Args:
+        law_text: Korean law document text
+        
+    Returns:
+        List of articles
+    """
     # 서문 분리
     # '^'로 시작하여 '제1장' 또는 '제1조' 직전까지의 모든 텍스트를 탐색 
     preamble_pattern = r'^(.*?)(?=제1장|제1조)'
