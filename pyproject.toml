@@ -1,0 +1,99 @@
+[tool.poetry]
+name = "knowledge-graph-construction-llm"
+version = "0.1.0"
+description = "LLM-based Knowledge Graph Construction System"
+authors = ["Woobin Jang <eeariorie@gmail.com>"]
+packages = [{ include = "app" }]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.12"
+# Database
+neo4j = "^5.15.0"
+# Hugging Face & Transformers
+transformers = "4.44.2"
+tokenizers = "0.19.1"
+accelerate = "^0.34.0"
+bitsandbytes = "^0.44.0"
+optimum = "^1.23.0"
+sentence-transformers = "^3.1.0"
+huggingface-hub = "^0.25.0"
+torch = "^2.3.0"
+# LangChain ecosystem
+langchain = "0.3.27"
+langgraph = "0.6.5"
+langchain-openai = "^0.2.0"
+langchain-community = "0.3.27"
+langchain-google-genai = "^2.0.0"
+langchain-huggingface = "^0.1.0"
+# Data Science & ML
+scikit-learn = "^1.5.0"
+pandas = "^2.2.0"
+numpy = "^1.26.0"
+matplotlib = "^3.9.0"
+scipy = "^1.14.0"
+# Web & API
+fastapi = "^0.115.0"
+uvicorn = {extras = ["standard"], version = "^0.31.0"}
+streamlit = "^1.39.0"
+aiohttp = "^3.10.0"
+beautifulsoup4 = "^4.12.0"
+# Utilities
+pydantic = ">=2.7,<3"
+protobuf = "^5.28.0"
+ipykernel = "^6.29.0"
+ipython = "^8.27.0"
+httpx = "^0.27.0"
+types-requests = "^2.32.0"
+markdown-it-py = "^3.0.0"
+altair = "^5.4.0"
+pyyaml = "^6.0.0"
+python-dotenv = "^1.0.0"
+# Document Processing
+unstructured = { extras = ["pdf"], version = "^0.15.0" }
+pypdf = "^5.0.0"
+python-magic = "^0.4.27"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+pytest-asyncio = "^0.24.0"
+black = "^24.8.0"
+ruff = "^0.6.0"
+jupyter = "^1.1.0"
+ipdb = "^0.13.13"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311']
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"

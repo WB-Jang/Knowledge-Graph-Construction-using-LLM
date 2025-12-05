@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data and Models
+data/
+models/
+outputs/
+logs/
+*.csv
+*.pkl
+*.h5
+*.pt
+*.pth
+*.ckpt
+
+# Environment
+.env
+.env.local
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+tests/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# CI/CD
+.github/
+
+# Jupyter
+*.ipynb
+.ipynb_checkpoints/
+
+# Distribution
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Neo4j data
+neo4j_data/
+neo4j_logs/
+neo4j_import/
+neo4j_plugins/
